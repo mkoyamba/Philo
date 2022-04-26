@@ -1,18 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.c                                            :+:      :+:    :+:   */
+/*   tools.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mkoyamba <mkoyamba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/26 18:15:14 by mkoyamba          #+#    #+#             */
-/*   Updated: 2022/04/26 19:21:33 by mkoyamba         ###   ########.fr       */
+/*   Created: 2022/04/26 18:30:58 by mkoyamba          #+#    #+#             */
+/*   Updated: 2022/04/26 19:03:02 by mkoyamba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "philo"
 
-void	philo(t_data *data)
+void	error_out(char *str, t_data *data)
 {
-	
+	//frees
+	write(2, "philo: ", 7);
+	write(2, str, ft_strlen(str));
+	exit(1);
 }
