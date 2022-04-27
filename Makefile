@@ -6,7 +6,7 @@
 #    By: mkoyamba <mkoyamba@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/01 17:08:30 by mkoyamba          #+#    #+#              #
-#    Updated: 2022/04/26 13:41:33 by mkoyamba         ###   ########.fr        #
+#    Updated: 2022/04/27 17:51:15 by mkoyamba         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,12 @@ NAME = philo
 
 INC_DIR =	.
 
-SRC =	main.c \
+SRC =	from_libft.c \
+		init.c \
+		main.c \
+		philo.c \
+		tools.c \
+		utils.c \
 
 BONUS =	
 

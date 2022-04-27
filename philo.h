@@ -6,12 +6,12 @@
 /*   By: mkoyamba <mkoyamba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 13:23:10 by mkoyamba          #+#    #+#             */
-/*   Updated: 2022/04/26 19:18:47 by mkoyamba         ###   ########.fr       */
+/*   Updated: 2022/04/27 16:48:31 by mkoyamba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#ifndef PHILO_H
+# define PHILO_H
 
 /*  		==================(     INCLUDES     )==================		  */
 
@@ -25,29 +25,29 @@
 
 /*  		==================(      MACROS      )==================		  */
 
-# define E_ALLOC "Problème d'allocation de mémoire."
-# define E_ARG "Arguments incorrects."
-
-/*  		==================(    PROTOTYPES    )==================		  */
-
-void	error_out(char *str, t_data *data);
-void	init(t_data *data);
-void	philo(t_data *data);
-size_t	ft_strlen(char *str);
-int		ft_atoi(const char *str);
+# define E_ALLOC "Problème d'allocation de mémoire.\n"
+# define E_ARG "Arguments incorrects.\n"
+# define E_FORK "Problème de fork.\n"
+# define M 1000
 
 /*  		==================(    STRUCTURES    )==================		  */
 
 typedef struct s_access
 {
-	size_t	num;
+	int				t_die;
+	int				t_eat;
+	int				t_sleep;
+	int				t_must;
+	void			*data;
+	int				num;
 	pthread_mutex_t	*fork_0;
 	pthread_mutex_t	*fork_1;
-	
+	int				*stop;
 }			t_access;
 
 typedef struct s_data
 {
+	int				stop;
 	int				len;
 	int				t_die;
 	int				t_eat;
@@ -57,5 +57,13 @@ typedef struct s_data
 	pthread_mutex_t	**mutex;
 	t_access		*access;
 }			t_data;
+
+/*  		==================(    PROTOTYPES    )==================		  */
+
+void	error_out(char *str, t_data *data, int philo);
+void	init(t_data *data);
+void	philo(t_data *data);
+size_t	ft_strlen(char *str);
+int		ft_atoi(char *str);
 
 #endif
