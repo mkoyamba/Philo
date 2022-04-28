@@ -6,7 +6,7 @@
 /*   By: mkoyamba <mkoyamba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 18:15:14 by mkoyamba          #+#    #+#             */
-/*   Updated: 2022/04/28 12:04:40 by mkoyamba         ###   ########.fr       */
+/*   Updated: 2022/04/28 12:09:15 by mkoyamba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,8 @@ static void	norminetted_un(t_access *access, int *stop, size_t *hungry,
 	struct timeval *start)
 {
 	t_data			*data;
-	
-	data = (t_data *)access->data;
 
+	data = (t_data *)access->data;
 	if (*stop == 1)
 		error_out(NULL, NULL, -1, access->wait);
 	else if (*hungry >= (size_t)access->t_die)
@@ -54,6 +53,33 @@ static void	norminetted_un(t_access *access, int *stop, size_t *hungry,
 			access->wait);
 }
 
+static void	norminetted_deux(t_access *access, int *stop, size_t *hungry,
+	struct timeval *start)
+{
+	if (access->num % 2 == 0)
+		pthread_mutex_lock(access->fork_1);
+	else
+		pthread_mutex_lock(access->fork_0);
+	if (*stop == 1)
+		error_out(NULL, NULL, -1, access->wait);
+	hung_update(start, hungry);
+	if (*stop == 1)
+		error_out(NULL, NULL, -1, access->wait);
+	else if (*hungry >= (size_t)access->t_die)
+		error_out(NULL, (t_data *)access->data, access->num + 1,
+			access->wait);
+	printf("%03d %i has taken a fork\n", start->tv_usec / M, access->num);
+	*hungry = 0;
+	printf("%03d %i is eating\n", start->tv_usec / M, access->num);
+	usleep(access->t_eat * M);
+	if (*stop == 1)
+		error_out(NULL, NULL, -1, access->wait);
+	gettimeofday(start, NULL);
+	printf("%03d %i is sleeping\n", start->tv_usec / M, access->num);
+	if (*stop == 1)
+		error_out(NULL, NULL, -1, access->wait);
+}
+
 static void	*philo_loop(void *arg)
 {
 	t_access		*access;
@@ -69,28 +95,7 @@ static void	*philo_loop(void *arg)
 	while (1)
 	{
 		norminetted_un(access, stop, &hungry, &start);
-		if (access->num % 2 == 0)
-			pthread_mutex_lock(access->fork_1);
-		else
-			pthread_mutex_lock(access->fork_0);
-		if (*stop == 1)
-			error_out(NULL, NULL, -1, access->wait);
-		hung_update(&start, &hungry);
-		if (*stop == 1)
-			error_out(NULL, NULL, -1, access->wait);
-		else if (hungry >= (size_t)access->t_die)
-			error_out(NULL, (t_data *)access->data, access->num + 1,
-				access->wait);
-		printf("%03d %i has taken a fork\n", start.tv_usec / M, access->num);
-		hungry = 0;
-		printf("%03d %i is eating\n", start.tv_usec / M, access->num);
-		usleep(access->t_eat * M);
-		if (*stop == 1)
-			error_out(NULL, NULL, -1, access->wait);
-		gettimeofday(&start, NULL);
-		printf("%03d %i is sleeping\n", start.tv_usec / M, access->num);
-		if (*stop == 1)
-			error_out(NULL, NULL, -1, access->wait);
+		norminetted_deux(access, stop, &hungry, &start);
 		pthread_mutex_unlock(access->fork_0);
 		if (*stop == 1)
 			error_out(NULL, NULL, -1, access->wait);
