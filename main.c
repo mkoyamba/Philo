@@ -6,7 +6,7 @@
 /*   By: mkoyamba <mkoyamba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 13:34:07 by mkoyamba          #+#    #+#             */
-/*   Updated: 2022/04/27 17:44:19 by mkoyamba         ###   ########.fr       */
+/*   Updated: 2022/04/28 11:31:07 by mkoyamba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,13 +94,5 @@ int	main(int argc, char **argv)
 		error_start(E_ALLOC, data.thread, data.mutex);
 	init(&data);
 	philo(&data);
-	while (1)
-	{
-		if (data.stop == 0)
-			usleep(1000 * M);
-		else
-			break ;
-	}
-	usleep(100);
 	return (0);
 }

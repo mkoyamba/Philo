@@ -6,7 +6,7 @@
 /*   By: mkoyamba <mkoyamba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 18:45:12 by mkoyamba          #+#    #+#             */
-/*   Updated: 2022/04/27 17:39:14 by mkoyamba         ###   ########.fr       */
+/*   Updated: 2022/04/28 11:45:57 by mkoyamba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static pthread_mutex_t	*mutex_create(t_data *data)
 	result = malloc(sizeof(pthread_mutex_t));
 	{
 		if (!result)
-			error_out(E_ALLOC, data, 0);
+			error_out(E_ALLOC, data, 0, NULL);
 	}
 	return (result);
 }
@@ -31,7 +31,7 @@ static pthread_t	*thread_create(t_data *data)
 	result = malloc(sizeof(pthread_t));
 	{
 		if (!result)
-			error_out(E_ALLOC, data, 0);
+			error_out(E_ALLOC, data, 0, NULL);
 	}
 	return (result);
 }
@@ -56,7 +56,7 @@ void	init(t_data *data)
 		data->access[n].t_sleep = data->t_sleep;
 		data->access[n].t_must = data->t_must;
 		data->access[n].data = data;
-		data->access[n].num = n;
+		data->access[n].num = n + 1;
 		data->access[n].fork_0 = data->mutex[n];
 		if (n < data->len - 1)
 			data->access[n].fork_1 = data->mutex[n + 1];
