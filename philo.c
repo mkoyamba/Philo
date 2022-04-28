@@ -6,7 +6,7 @@
 /*   By: mkoyamba <mkoyamba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 18:15:14 by mkoyamba          #+#    #+#             */
-/*   Updated: 2022/04/28 12:09:15 by mkoyamba         ###   ########.fr       */
+/*   Updated: 2022/04/28 19:32:18 by mkoyamba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,8 +131,7 @@ void	philo(t_data *data)
 	{
 		if (data->stop == 1)
 			break ;
-		usleep(M);
+		usleep(10);
 	}
-	usleep(100);
 	pthread_mutex_destroy(&wait);
 }
