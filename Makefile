@@ -6,11 +6,11 @@
 #    By: mkoyamba <mkoyamba@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/01 17:08:30 by mkoyamba          #+#    #+#              #
-#    Updated: 2022/04/28 11:45:14 by mkoyamba         ###   ########.fr        #
+#    Updated: 2022/05/02 15:43:05 by mkoyamba         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g3 -fsanitize=address
 
 NAME = philo
 
@@ -21,6 +21,7 @@ SRC =	from_libft.c \
 		main.c \
 		philo.c \
 		tools.c \
+		utils.c \
 
 BONUS =	
 

@@ -6,7 +6,7 @@
 /*   By: mkoyamba <mkoyamba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 18:57:20 by mkoyamba          #+#    #+#             */
-/*   Updated: 2022/04/27 14:20:04 by mkoyamba         ###   ########.fr       */
+/*   Updated: 2022/05/02 13:11:34 by mkoyamba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ static int	mk_check_atoi(const char *str, int n, int s)
 	l = 0;
 	while (str[n + a] >= '0' && str[n + a] <= '9')
 		a++;
+	if (str[n + a])
+		return (0);
 	if (a > 10 && s == 1)
 		return (0);
 	if (a > 10 && s == -1)
@@ -77,4 +79,23 @@ int	ft_atoi(char *str)
 		n++;
 	}
 	return (nombre * s);
+}
+
+void	ft_putnbr(int n)
+{
+	unsigned int	t;
+	char			c;
+
+	if (n < 0)
+	{
+		t = -n;
+		write(1, "-", 1);
+	}
+	else
+		t = n;
+	if (t > 9)
+		ft_putnbr(t / 10);
+	t %= 10;
+	c = t + '0';
+	write(1, &c, 1);
 }

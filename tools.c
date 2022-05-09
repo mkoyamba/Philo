@@ -6,13 +6,13 @@
 /*   By: mkoyamba <mkoyamba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 18:30:58 by mkoyamba          #+#    #+#             */
-/*   Updated: 2022/04/28 11:43:01 by mkoyamba         ###   ########.fr       */
+/*   Updated: 2022/05/02 16:17:13 by mkoyamba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static void	all_free(t_data *data)
+void	all_free(t_data *data, pthread_mutex_t	*speak, pthread_mutex_t	*end)
 {
 	int	n;
 
@@ -31,20 +31,16 @@ static void	all_free(t_data *data)
 		free(data->mutex);
 	if (data->access)
 		free(data->access);
+	if (speak)
+		pthread_mutex_destroy(speak);
+	if (end)
+		pthread_mutex_destroy(end);
+	data->stop = 1;
 }
 
-void	error_out(char *str, t_data *data, int philo, pthread_mutex_t	*wait)
+void	error_out(char *str, t_data *data)
 {
-	if (wait)
-		pthread_mutex_lock(wait);
-	data->stop = 1;
-	all_free(data);
-	if (philo == 0)
-	{
-		write(2, "philo: ", 7);
-		write(2, str, ft_strlen(str));
-	}
-	else
-		printf("Le philosophe %i est mort.\n", philo - 1);
-	exit(0);
+	write(2, str, ft_strlen(str));
+	all_free(data, NULL, NULL);
 }
+

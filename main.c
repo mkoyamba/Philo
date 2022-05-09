@@ -6,7 +6,7 @@
 /*   By: mkoyamba <mkoyamba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 13:34:07 by mkoyamba          #+#    #+#             */
-/*   Updated: 2022/04/28 11:31:07 by mkoyamba         ###   ########.fr       */
+/*   Updated: 2022/05/02 15:32:14 by mkoyamba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int	main(int argc, char **argv)
 
 	data.stop = 0;
 	alloc_init(&data, argc, argv);
-	data.access = malloc(data.len * sizeof(t_access));
+	data.access = malloc((data.len + 1) * sizeof(t_access));
 	if (!data.access)
 		error_start(E_ALLOC, data.thread, data.mutex);
 	init(&data);
