@@ -6,7 +6,7 @@
 /*   By: mkoyamba <mkoyamba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 13:23:10 by mkoyamba          #+#    #+#             */
-/*   Updated: 2022/05/02 16:16:30 by mkoyamba         ###   ########.fr       */
+/*   Updated: 2022/05/10 12:20:18 by mkoyamba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,28 +47,29 @@
 
 typedef struct s_access
 {
-	int				t_die;
+	int				num;
 	int				t_eat;
 	int				t_sleep;
-	int				t_must;
+	int				*meal;
+	int				*last_eat;
 	void			*data;
-	int				num;
 	int				*stop;
 	int				start_time;
 	pthread_mutex_t	*fork_0;
 	pthread_mutex_t	*fork_1;
 	pthread_mutex_t	*speak;
-	pthread_mutex_t	*end;
 }			t_access;
 
 typedef struct s_data
 {
-	int				stop;
+	int				start_time;
 	int				len;
 	int				t_die;
 	int				t_eat;
 	int				t_sleep;
 	int				t_must;
+	int				*hunger_count;
+	int				*number_meal;
 	pthread_t		**thread;
 	pthread_mutex_t	**mutex;
 	t_access		*access;
@@ -84,9 +85,7 @@ int		ft_atoi(char *str);
 int		timestamp(t_access *access);
 void	ft_putnbr(int n);
 void	print_msg(t_access *access, int msg);
-int		hungry(t_access *access, int *hunger);
-void	locker(t_access *access);
 void	died(t_access *access);
-void	all_free(t_data *data, pthread_mutex_t	*speak, pthread_mutex_t	*end);
+void	all_free(t_data *data);
 
 #endif

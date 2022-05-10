@@ -6,7 +6,7 @@
 /*   By: mkoyamba <mkoyamba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 18:45:12 by mkoyamba          #+#    #+#             */
-/*   Updated: 2022/05/02 16:17:39 by mkoyamba         ###   ########.fr       */
+/*   Updated: 2022/05/10 12:16:16 by mkoyamba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,10 @@ static void	init_loop(t_data *data)
 	n = 0;
 	while (n < data->len)
 	{
-	//	data->access[n].stop = &data->stop;
-		data->access[n].t_die = data->t_die;
+		data->access[n].last_eat = &(data->hunger_count[n]);
 		data->access[n].t_eat = data->t_eat;
 		data->access[n].t_sleep = data->t_sleep;
-		data->access[n].t_must = data->t_must;
+		data->access[n].meal = &(data->number_meal[n]);
 		data->access[n].data = data;
 		data->access[n].num = n + 1;
 		data->access[n].fork_0 = data->mutex[n];
@@ -70,10 +69,13 @@ void	init(t_data *data)
 
 	init_loop(data);
 	gettimeofday(&start, NULL);
+	data->start_time = start.tv_sec * 1000 + start.tv_usec / 1000;
 	n = 0;
 	while (n < data->len)
 	{
-		data->access[n].start_time = start.tv_sec * 1000 + start.tv_usec / 1000;
+		data->hunger_count[n] = 0;
+		data->number_meal[n] = 0;
+		data->access[n].start_time = data->start_time;
 		n++;
 	}
 }

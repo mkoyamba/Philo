@@ -6,7 +6,7 @@
 /*   By: mkoyamba <mkoyamba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 13:34:07 by mkoyamba          #+#    #+#             */
-/*   Updated: 2022/05/02 15:32:14 by mkoyamba         ###   ########.fr       */
+/*   Updated: 2022/05/10 12:19:32 by mkoyamba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,8 @@ static void	alloc_init(t_data *data, int ac, char **av)
 	data->t_die = ft_atoi(av[2]);
 	data->t_eat = ft_atoi(av[3]);
 	data->t_sleep = ft_atoi(av[4]);
-	data->t_must = -1;
-	if (ac == 6)
+	data->t_must = 0;
+	if (ac == 6 && ft_atoi(av[5])> 0)
 		data->t_must = ft_atoi(av[5]);
 	data->thread = malloc(data->len * sizeof(pthread_t *));
 	if (!data->thread)
@@ -87,11 +87,23 @@ int	main(int argc, char **argv)
 {
 	t_data	data;
 
-	data.stop = 0;
 	alloc_init(&data, argc, argv);
-	data.access = malloc((data.len + 1) * sizeof(t_access));
-	if (!data.access)
+	data.hunger_count = malloc(data.len * sizeof(int));
+	if (!data.hunger_count)
 		error_start(E_ALLOC, data.thread, data.mutex);
+	data.number_meal = malloc(data.len * sizeof(int));
+	if (!data.number_meal)
+	{
+		free(data.hunger_count);
+		error_start(E_ALLOC, data.thread, data.mutex);
+	}
+	data.access = malloc(data.len * sizeof(t_access));
+	if (!data.access)
+	{
+		free(data.hunger_count);
+		free(data.number_meal);
+		error_start(E_ALLOC, data.thread, data.mutex);
+	}
 	init(&data);
 	philo(&data);
 	return (0);

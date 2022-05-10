@@ -6,7 +6,7 @@
 /*   By: mkoyamba <mkoyamba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 10:26:59 by mkoyamba          #+#    #+#             */
-/*   Updated: 2022/05/02 16:05:07 by mkoyamba         ###   ########.fr       */
+/*   Updated: 2022/05/10 12:20:06 by mkoyamba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,22 +20,6 @@ int	timestamp(t_access *access)
 	gettimeofday(&time, NULL);
 	result = (time.tv_sec * 1000 + time.tv_usec / 1000) - access->start_time;
 	return (result);
-}
-
-int	hungry(t_access *access, int *hunger)
-{
-	int	is_dead;
-
-	is_dead = timestamp(access) - *hunger;
-	if (is_dead >= access->t_die)
-		return (1);
-	return (0);
-}
-
-void	locker(t_access *access)
-{
-	pthread_mutex_lock(access->end);
-	pthread_mutex_unlock(access->end);
 }
 
 void	print_msg(t_access *access, int msg)
