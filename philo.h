@@ -6,7 +6,7 @@
 /*   By: mkoyamba <mkoyamba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 13:23:10 by mkoyamba          #+#    #+#             */
-/*   Updated: 2022/05/10 12:20:18 by mkoyamba         ###   ########.fr       */
+/*   Updated: 2022/05/10 13:07:00 by mkoyamba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ typedef struct s_data
 
 void	error_out(char *str, t_data *data);
 void	init(t_data *data);
-void	philo(t_data *data);
+void	philo(t_data *data, pthread_mutex_t	*speak);
 size_t	ft_strlen(char *str);
 int		ft_atoi(char *str);
 int		timestamp(t_access *access);

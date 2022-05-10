@@ -6,7 +6,7 @@
 /*   By: mkoyamba <mkoyamba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 18:15:14 by mkoyamba          #+#    #+#             */
-/*   Updated: 2022/05/10 12:23:23 by mkoyamba         ###   ########.fr       */
+/*   Updated: 2022/05/10 13:06:55 by mkoyamba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,16 +88,14 @@ static void	*philo_loop(void *arg)
 	return (NULL);
 }
 
-void	philo(t_data *data)
+void	philo(t_data *data, pthread_mutex_t	*speak)
 {
 	int				n;
-	pthread_mutex_t	speak;
 
-	pthread_mutex_init(&speak, NULL);
 	n = 0;
 	while (n < data->len)
 	{
-		data->access[n].speak = &speak;
+		data->access[n].speak = speak;
 		pthread_mutex_init(data->mutex[n], NULL);
 		pthread_create(data->thread[n], NULL, philo_loop, &data->access[n]);
 		n++;
@@ -106,12 +104,12 @@ void	philo(t_data *data)
 	if (n)
 	{
 		print_msg(&(data->access[n - 1]), MSG_DIED);
-		pthread_mutex_destroy(&speak);
+		pthread_mutex_destroy(speak);
 		all_free(data);
 	}
 	else
 	{
-		pthread_mutex_lock(&speak);
+		pthread_mutex_lock(speak);
 		write(1, "All philosophers have eaten enough\n", 35);
 		all_free(data);
 	}

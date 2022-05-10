@@ -6,7 +6,7 @@
 /*   By: mkoyamba <mkoyamba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 13:34:07 by mkoyamba          #+#    #+#             */
-/*   Updated: 2022/05/10 12:19:32 by mkoyamba         ###   ########.fr       */
+/*   Updated: 2022/05/10 13:09:24 by mkoyamba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static void	alloc_init(t_data *data, int ac, char **av)
 	data->t_eat = ft_atoi(av[3]);
 	data->t_sleep = ft_atoi(av[4]);
 	data->t_must = 0;
-	if (ac == 6 && ft_atoi(av[5])> 0)
+	if (ac == 6 && ft_atoi(av[5]) > 0)
 		data->t_must = ft_atoi(av[5]);
 	data->thread = malloc(data->len * sizeof(pthread_t *));
 	if (!data->thread)
@@ -85,8 +85,10 @@ static void	alloc_init(t_data *data, int ac, char **av)
 
 int	main(int argc, char **argv)
 {
-	t_data	data;
+	t_data			data;
+	pthread_mutex_t	speak;
 
+	pthread_mutex_init(&speak, NULL);
 	alloc_init(&data, argc, argv);
 	data.hunger_count = malloc(data.len * sizeof(int));
 	if (!data.hunger_count)
@@ -105,6 +107,7 @@ int	main(int argc, char **argv)
 		error_start(E_ALLOC, data.thread, data.mutex);
 	}
 	init(&data);
-	philo(&data);
+	philo(&data, &speak);
+	pthread_mutex_destroy(&speak);
 	return (0);
 }
