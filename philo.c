@@ -6,7 +6,7 @@
 /*   By: mkoyamba <mkoyamba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 18:15:14 by mkoyamba          #+#    #+#             */
-/*   Updated: 2022/05/10 13:06:55 by mkoyamba         ###   ########.fr       */
+/*   Updated: 2022/05/10 13:56:35 by mkoyamba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,9 @@ static void	eating(t_access *access)
 	*(access->last_eat) = timestamp(access);
 	usleep(access->t_eat * M);
 	*(access->last_eat) = timestamp(access);
+	*(access->meal) += 1;
 	pthread_mutex_unlock(access->fork_0);
 	pthread_mutex_unlock(access->fork_1);
-	*(access->meal) += 1;
 }
 
 static void	*philo_loop(void *arg)
@@ -104,7 +104,6 @@ void	philo(t_data *data, pthread_mutex_t	*speak)
 	if (n)
 	{
 		print_msg(&(data->access[n - 1]), MSG_DIED);
-		pthread_mutex_destroy(speak);
 		all_free(data);
 	}
 	else

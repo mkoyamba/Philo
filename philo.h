@@ -6,7 +6,7 @@
 /*   By: mkoyamba <mkoyamba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 13:23:10 by mkoyamba          #+#    #+#             */
-/*   Updated: 2022/05/10 13:07:00 by mkoyamba         ###   ########.fr       */
+/*   Updated: 2022/05/10 13:40:54 by mkoyamba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ typedef struct s_access
 	int				*meal;
 	int				*last_eat;
 	void			*data;
-	int				*stop;
 	int				start_time;
 	pthread_mutex_t	*fork_0;
 	pthread_mutex_t	*fork_1;
