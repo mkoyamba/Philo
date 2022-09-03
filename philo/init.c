@@ -6,7 +6,7 @@
 /*   By: mkoyamba <mkoyamba@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 18:45:12 by mkoyamba          #+#    #+#             */
-/*   Updated: 2022/09/03 12:43:01 by mkoyamba         ###   ########.fr       */
+/*   Updated: 2022/09/03 16:52:29 by mkoyamba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,11 @@ static void	init_loop(t_data *data)
 void	init(t_data *data)
 {
 	int				n;
+	struct timeval	start;
 
 	init_loop(data);
+	gettimeofday(&start, NULL);
+	data->start_time = start.tv_sec * 1000 + start.tv_usec / 1000;
 	n = 0;
 	while (n < data->len)
 	{

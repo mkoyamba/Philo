@@ -6,7 +6,7 @@
 /*   By: mkoyamba <mkoyamba@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 13:23:10 by mkoyamba          #+#    #+#             */
-/*   Updated: 2022/09/03 12:42:35 by mkoyamba         ###   ########.fr       */
+/*   Updated: 2022/09/03 16:51:53 by mkoyamba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,6 @@ void	print_msg(t_access *access, int msg);
 void	died(t_access *access);
 void	all_free(t_data *data);
 void	time_tempo(int timeout, int time_stamp, t_access *access);
-int	first_timestamp();
+int		first_timestamp();
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: mkoyamba <mkoyamba@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 18:15:14 by mkoyamba          #+#    #+#             */
-/*   Updated: 2022/09/03 15:49:50 by mkoyamba         ###   ########.fr       */
+/*   Updated: 2022/09/03 16:53:38 by mkoyamba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ void	philo(t_data *data, pthread_mutex_t	*speak)
 	else
 	{
 		pthread_mutex_lock(speak);
-		write(1, "All philosophers have eaten enough\n", 35);
 		all_free(data);
+		write(1, "All philosophers have eaten enough\n", 35);
 	}
 }
