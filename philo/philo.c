@@ -6,7 +6,7 @@
 /*   By: mkoyamba <mkoyamba@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 18:15:14 by mkoyamba          #+#    #+#             */
-/*   Updated: 2022/09/03 16:53:38 by mkoyamba         ###   ########.fr       */
+/*   Updated: 2022/09/03 17:13:23 by mkoyamba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,13 +78,7 @@ static int	eating(t_access *access, int mode)
 		print_msg(access, MSG_FORK);
 		print_msg(access, MSG_FORK);
 	}
-	*(access->last_eat) = timestamp(access);
-	*(access->meal) += 1;
-	print_msg(access, MSG_EAT);
-	time_tempo(access->t_eat, timestamp(access), access);
-	pthread_mutex_unlock(access->fork_0);
-	pthread_mutex_unlock(access->fork_1);
-	return (1);
+	return (eat_end(access));
 }
 
 static void	*philo_loop(void *arg)
@@ -94,7 +88,7 @@ static void	*philo_loop(void *arg)
 	access = (t_access *)arg;
 	while (1)
 	{
-		while(!eating(access, 0))
+		while (!eating(access, 0))
 		{
 			if (eating(access, 1))
 				break ;

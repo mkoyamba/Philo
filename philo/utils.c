@@ -6,7 +6,7 @@
 /*   By: mkoyamba <mkoyamba@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 10:26:59 by mkoyamba          #+#    #+#             */
-/*   Updated: 2022/09/03 12:42:20 by mkoyamba         ###   ########.fr       */
+/*   Updated: 2022/09/03 17:13:28 by mkoyamba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	timestamp(t_access *access)
 	return (result);
 }
 
-int	first_timestamp()
+int	first_timestamp(void)
 {
 	int				result;
 	struct timeval	time;
@@ -57,4 +57,15 @@ void	print_msg(t_access *access, int msg)
 		write(1, STR_DIED, 5);
 	if (msg != MSG_DIED)
 		pthread_mutex_unlock(access->speak);
+}
+
+int	eat_end(t_access *access)
+{
+	*(access->last_eat) = timestamp(access);
+	*(access->meal) += 1;
+	print_msg(access, MSG_EAT);
+	time_tempo(access->t_eat, timestamp(access), access);
+	pthread_mutex_unlock(access->fork_0);
+	pthread_mutex_unlock(access->fork_1);
+	return (1);
 }

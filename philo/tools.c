@@ -6,7 +6,7 @@
 /*   By: mkoyamba <mkoyamba@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 18:30:58 by mkoyamba          #+#    #+#             */
-/*   Updated: 2022/09/03 17:07:17 by mkoyamba         ###   ########.fr       */
+/*   Updated: 2022/09/05 12:26:53 by mkoyamba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	all_free(t_data *data)
 {
 	int	n;
 
-	usleep(data->t_eat + data->t_sleep + M);
+	usleep((data->t_eat + data->t_sleep) * M);
 	free(data->hunger_count);
 	free(data->number_meal);
 	n = 0;
@@ -35,7 +35,6 @@ void	all_free(t_data *data)
 
 void	error_out(char *str, t_data *data)
 {
-	(void)data;
 	write(2, str, ft_strlen(str));
 	all_free(data);
 }
