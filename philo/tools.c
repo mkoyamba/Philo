@@ -6,7 +6,7 @@
 /*   By: mkoyamba <mkoyamba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 18:30:58 by mkoyamba          #+#    #+#             */
-/*   Updated: 2022/10/06 11:58:31 by mkoyamba         ###   ########.fr       */
+/*   Updated: 2022/10/06 14:26:19 by mkoyamba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,19 +33,28 @@ void	all_free(t_data *data)
 	int	n;
 
 	usleep((data->t_eat + data->t_sleep) * M);
-	free(data->hunger_count);
-	free(data->number_meal);
+	if (data->hunger_count)
+		free(data->hunger_count);
+	if (data->number_meal)
+		free(data->number_meal);
+	if (data->stop)
+		free(data->stop);
 	n = 0;
 	while (n < data->len)
 	{
 		pthread_mutex_destroy(data->mutex[n]);
-		free(data->mutex[n]);
-		free(data->thread[n]);
+		if (data->mutex[n])
+			free(data->mutex[n]);
+		if (data->thread[n])
+			free(data->thread[n]);
 		n++;
 	}
-	free(data->mutex);
-	free(data->thread);
-	free(data->access);
+	if (data->mutex)
+		free(data->mutex);
+	if (data->thread)
+		free(data->thread);
+	if (data->access)
+		free(data->access);
 	return ;
 }
 

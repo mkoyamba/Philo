@@ -6,7 +6,7 @@
 /*   By: mkoyamba <mkoyamba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 18:15:14 by mkoyamba          #+#    #+#             */
-/*   Updated: 2022/10/06 12:00:01 by mkoyamba         ###   ########.fr       */
+/*   Updated: 2022/10/06 15:36:18 by mkoyamba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ static int	is_dead(t_data *data)
 	int	n;
 
 	n = 0;
-	pthread_mutex_lock(data->death_check_mute);
 	while (n < data->len)
 	{
 		if (timestamp(&data->access[n]) - data->hunger_count[n] >= data->t_die)
@@ -34,6 +33,7 @@ static int	check_state(t_data *data)
 
 	while (1)
 	{
+		pthread_mutex_lock(data->death_check_mute);
 		n = is_dead(data);
 		if (n)
 			return (n);
@@ -42,6 +42,8 @@ static int	check_state(t_data *data)
 		{
 			while (n < data->len)
 			{
+				if (data->number_meal[n] == data->t_must)
+					*(data->access[n].stop) = 1;
 				if (data->number_meal[n] < data->t_must)
 				{
 					n = -1;
@@ -57,32 +59,12 @@ static int	check_state(t_data *data)
 	}
 }
 
-static int	eating(t_access *access, int mode)
+static int	eating(t_access *access)
 {
-	if (!mode)
-	{
-		if (pthread_mutex_lock(access->fork_0))
-			return (0);
-		if (pthread_mutex_lock(access->fork_1))
-		{
-			pthread_mutex_unlock(access->fork_0);
-			return (0);
-		}
-		print_msg(access, MSG_FORK);
-		print_msg(access, MSG_FORK);
-	}
-	else
-	{
-		if (pthread_mutex_lock(access->fork_1))
-			return (0);
-		if (pthread_mutex_lock(access->fork_0))
-		{
-			pthread_mutex_unlock(access->fork_1);
-			return (0);
-		}
-		print_msg(access, MSG_FORK);
-		print_msg(access, MSG_FORK);
-	}
+	pthread_mutex_lock(access->fork_0);
+	print_msg(access, MSG_FORK);
+	pthread_mutex_lock(access->fork_1);
+	print_msg(access, MSG_FORK);
 	return (eat_end(access));
 }
 
@@ -91,13 +73,18 @@ static void	*philo_loop(void *arg)
 	t_access	*access;
 
 	access = (t_access *)arg;
+	if (access->num % 2)
+		time_tempo(0.6 * access->t_eat, timestamp(access), access);
 	while (1)
 	{
-		while (!eating(access, 0))
+		pthread_mutex_lock(access->nb_meal_mute);
+		if (*(access->stop))
 		{
-			if (eating(access, 1))
-				break ;
+			pthread_mutex_unlock(access->nb_meal_mute);
+			return (NULL);
 		}
+		pthread_mutex_unlock(access->nb_meal_mute);
+		eating(access);
 		print_msg(access, MSG_SLEEP);
 		time_tempo(access->t_sleep, timestamp(access), access);
 		print_msg(access, MSG_THINK);

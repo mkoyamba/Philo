@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkoyamba <mkoyamba@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mkoyamba <mkoyamba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 18:45:12 by mkoyamba          #+#    #+#             */
-/*   Updated: 2022/09/03 16:52:29 by mkoyamba         ###   ########.fr       */
+/*   Updated: 2022/10/06 15:11:08 by mkoyamba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ static void	init_loop(t_data *data)
 	n = 0;
 	while (n < data->len)
 	{
+		data->access[n].stop = &(data->stop[n]);
+		data->stop[n] = 0;
 		data->access[n].last_eat = &(data->hunger_count[n]);
 		data->access[n].t_eat = data->t_eat;
 		data->access[n].t_sleep = data->t_sleep;
