@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkoyamba <mkoyamba@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mkoyamba <mkoyamba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 13:23:10 by mkoyamba          #+#    #+#             */
-/*   Updated: 2022/09/03 17:13:30 by mkoyamba         ###   ########.fr       */
+/*   Updated: 2022/10/06 12:04:23 by mkoyamba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ typedef struct s_access
 	pthread_mutex_t	*fork_0;
 	pthread_mutex_t	*fork_1;
 	pthread_mutex_t	*speak;
+	pthread_mutex_t	*nb_meal_mute;
+	pthread_mutex_t	*death_check_mute;
 }			t_access;
 
 typedef struct s_data
@@ -72,13 +74,16 @@ typedef struct s_data
 	pthread_t		**thread;
 	pthread_mutex_t	**mutex;
 	t_access		*access;
+	pthread_mutex_t	*nb_meal_mute;
+	pthread_mutex_t	*death_check_mute;
 }			t_data;
 
 /*  		==================(    PROTOTYPES    )==================		  */
 
 void	error_out(char *str, t_data *data);
 void	init(t_data *data);
-void	philo(t_data *data, pthread_mutex_t	*speak);
+void	philo(t_data *data, pthread_mutex_t	*speak,
+			pthread_mutex_t	*nb_meal_mute, pthread_mutex_t	*death_check_mute);
 size_t	ft_strlen(char *str);
 int		ft_atoi(char *str);
 int		timestamp(t_access *access);
@@ -89,5 +94,7 @@ void	all_free(t_data *data);
 void	time_tempo(int timeout, int time_stamp, t_access *access);
 int		first_timestamp(void);
 int		eat_end(t_access *access);
+void	time_tempo_data(int timeout, int time_stamp, t_data *data);
+int		timestamp_data(t_data *data);
 
 #endif

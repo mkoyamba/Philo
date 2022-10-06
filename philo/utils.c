@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkoyamba <mkoyamba@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mkoyamba <mkoyamba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 10:26:59 by mkoyamba          #+#    #+#             */
-/*   Updated: 2022/09/03 17:13:28 by mkoyamba         ###   ########.fr       */
+/*   Updated: 2022/10/06 12:04:49 by mkoyamba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,12 @@ void	print_msg(t_access *access, int msg)
 
 int	eat_end(t_access *access)
 {
+	pthread_mutex_lock(access->death_check_mute);
 	*(access->last_eat) = timestamp(access);
+	pthread_mutex_unlock(access->death_check_mute);
+	pthread_mutex_lock(access->nb_meal_mute);
 	*(access->meal) += 1;
+	pthread_mutex_unlock(access->nb_meal_mute);
 	print_msg(access, MSG_EAT);
 	time_tempo(access->t_eat, timestamp(access), access);
 	pthread_mutex_unlock(access->fork_0);

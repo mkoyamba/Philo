@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkoyamba <mkoyamba@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mkoyamba <mkoyamba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 13:34:07 by mkoyamba          #+#    #+#             */
-/*   Updated: 2022/09/03 16:51:42 by mkoyamba         ###   ########.fr       */
+/*   Updated: 2022/10/06 11:53:37 by mkoyamba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,12 @@ int	main(int argc, char **argv)
 {
 	t_data			data;
 	pthread_mutex_t	speak;
+	pthread_mutex_t	nb_meal_mute;
+	pthread_mutex_t	death_check_mute;
 
 	pthread_mutex_init(&speak, NULL);
+	pthread_mutex_init(&nb_meal_mute, NULL);
+	pthread_mutex_init(&death_check_mute, NULL);
 	alloc_init(&data, argc, argv);
 	data.hunger_count = malloc(data.len * sizeof(int));
 	if (!data.hunger_count)
@@ -107,7 +111,7 @@ int	main(int argc, char **argv)
 		error_start(E_ALLOC, data.thread, data.mutex);
 	}
 	init(&data);
-	philo(&data, &speak);
+	philo(&data, &speak, &nb_meal_mute, &death_check_mute);
 	pthread_mutex_destroy(&speak);
 	return (0);
 }

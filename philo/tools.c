@@ -3,14 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   tools.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkoyamba <mkoyamba@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mkoyamba <mkoyamba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 18:30:58 by mkoyamba          #+#    #+#             */
-/*   Updated: 2022/09/05 12:26:53 by mkoyamba         ###   ########.fr       */
+/*   Updated: 2022/10/06 11:58:31 by mkoyamba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+void	time_tempo_data(int timeout, int time_stamp, t_data *data)
+{
+	while (timestamp_data(data) < time_stamp + timeout)
+		usleep(100);
+}
+
+int	timestamp_data(t_data *data)
+{
+	int				result;
+	struct timeval	time;
+
+	gettimeofday(&time, NULL);
+	result = (time.tv_sec * 1000 + time.tv_usec / 1000) - data->start_time;
+	return (result);
+}
 
 void	all_free(t_data *data)
 {

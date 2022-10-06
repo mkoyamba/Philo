@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkoyamba <mkoyamba@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mkoyamba <mkoyamba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 18:15:14 by mkoyamba          #+#    #+#             */
-/*   Updated: 2022/09/03 17:13:23 by mkoyamba         ###   ########.fr       */
+/*   Updated: 2022/10/06 12:00:01 by mkoyamba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,14 @@ static int	is_dead(t_data *data)
 	int	n;
 
 	n = 0;
+	pthread_mutex_lock(data->death_check_mute);
 	while (n < data->len)
 	{
 		if (timestamp(&data->access[n]) - data->hunger_count[n] >= data->t_die)
 			return (n + 1);
 		n++;
 	}
+	pthread_mutex_unlock(data->death_check_mute);
 	return (0);
 }
 
@@ -35,6 +37,7 @@ static int	check_state(t_data *data)
 		n = is_dead(data);
 		if (n)
 			return (n);
+		pthread_mutex_lock(data->nb_meal_mute);
 		if (data->t_must > 0)
 		{
 			while (n < data->len)
@@ -49,6 +52,8 @@ static int	check_state(t_data *data)
 			if (n != -1)
 				return (0);
 		}
+		pthread_mutex_unlock(data->nb_meal_mute);
+		time_tempo_data(1, timestamp_data(data), data);
 	}
 }
 
@@ -100,9 +105,10 @@ static void	*philo_loop(void *arg)
 	return (NULL);
 }
 
-void	philo(t_data *data, pthread_mutex_t	*speak)
+void	philo(t_data *data, pthread_mutex_t	*speak,
+			pthread_mutex_t	*nb_meal_mute, pthread_mutex_t	*death_check_mute)
 {
-	int				n;
+	int	n;
 
 	n = 0;
 	data->start_time = first_timestamp();
@@ -110,10 +116,14 @@ void	philo(t_data *data, pthread_mutex_t	*speak)
 	{
 		data->access[n].start_time = data->start_time;
 		data->access[n].speak = speak;
+		data->access[n].nb_meal_mute = nb_meal_mute;
+		data->access[n].death_check_mute = death_check_mute;
 		pthread_mutex_init(data->mutex[n], NULL);
 		pthread_create(data->thread[n], NULL, philo_loop, &data->access[n]);
 		n++;
 	}
+	data->nb_meal_mute = nb_meal_mute;
+	data->death_check_mute = death_check_mute;
 	n = check_state(data);
 	if (n)
 	{
