@@ -6,7 +6,7 @@
 /*   By: mkoyamba <mkoyamba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 18:15:14 by mkoyamba          #+#    #+#             */
-/*   Updated: 2022/10/06 15:36:18 by mkoyamba         ###   ########.fr       */
+/*   Updated: 2022/10/06 16:47:00 by mkoyamba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,20 +73,31 @@ static void	*philo_loop(void *arg)
 	t_access	*access;
 
 	access = (t_access *)arg;
+	pthread_mutex_lock(access->start_mute);
+	pthread_mutex_unlock(access->start_mute);
 	if (access->num % 2)
 		time_tempo(0.6 * access->t_eat, timestamp(access), access);
 	while (1)
 	{
+		eating(access);
 		pthread_mutex_lock(access->nb_meal_mute);
 		if (*(access->stop))
 		{
 			pthread_mutex_unlock(access->nb_meal_mute);
+			write(1, "HARRRRRRE\n", 10);
 			return (NULL);
 		}
 		pthread_mutex_unlock(access->nb_meal_mute);
-		eating(access);
 		print_msg(access, MSG_SLEEP);
 		time_tempo(access->t_sleep, timestamp(access), access);
+		pthread_mutex_lock(access->nb_meal_mute);
+		if (*(access->stop))
+		{
+			pthread_mutex_unlock(access->nb_meal_mute);
+			write(1, "HERRRRRRE\n", 10);
+			return (NULL);
+		}
+		pthread_mutex_unlock(access->nb_meal_mute);
 		print_msg(access, MSG_THINK);
 	}
 	return (NULL);
@@ -95,13 +106,15 @@ static void	*philo_loop(void *arg)
 void	philo(t_data *data, pthread_mutex_t	*speak,
 			pthread_mutex_t	*nb_meal_mute, pthread_mutex_t	*death_check_mute)
 {
-	int	n;
+	int				n;
+	pthread_mutex_t	start_mute;
 
+	pthread_mutex_init(&start_mute, NULL);
+	pthread_mutex_lock(&start_mute);
 	n = 0;
-	data->start_time = first_timestamp();
 	while (n < data->len)
 	{
-		data->access[n].start_time = data->start_time;
+		data->access[n].start_mute = &start_mute;
 		data->access[n].speak = speak;
 		data->access[n].nb_meal_mute = nb_meal_mute;
 		data->access[n].death_check_mute = death_check_mute;
@@ -109,6 +122,14 @@ void	philo(t_data *data, pthread_mutex_t	*speak,
 		pthread_create(data->thread[n], NULL, philo_loop, &data->access[n]);
 		n++;
 	}
+	n = 0;
+	data->start_time = first_timestamp();
+	while (n < data->len)
+	{
+		data->access[n].start_time = data->start_time;
+		n++;
+	}
+	pthread_mutex_unlock(&start_mute);
 	data->nb_meal_mute = nb_meal_mute;
 	data->death_check_mute = death_check_mute;
 	n = check_state(data);
@@ -119,7 +140,6 @@ void	philo(t_data *data, pthread_mutex_t	*speak,
 	}
 	else
 	{
-		pthread_mutex_lock(speak);
 		all_free(data);
 		write(1, "All philosophers have eaten enough\n", 35);
 	}

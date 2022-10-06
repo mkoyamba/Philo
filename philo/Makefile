@@ -6,11 +6,11 @@
 #    By: mkoyamba <mkoyamba@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/01 17:08:30 by mkoyamba          #+#    #+#              #
-#    Updated: 2022/10/06 14:46:06 by mkoyamba         ###   ########.fr        #
+#    Updated: 2022/10/06 16:24:58 by mkoyamba         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g3
+CFLAGS = -Wall -Wextra -Werror -fsanitize=thread -g3
 
 NAME = philo
 

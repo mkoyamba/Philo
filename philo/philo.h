@@ -6,7 +6,7 @@
 /*   By: mkoyamba <mkoyamba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 13:23:10 by mkoyamba          #+#    #+#             */
-/*   Updated: 2022/10/06 14:41:59 by mkoyamba         ###   ########.fr       */
+/*   Updated: 2022/10/06 16:11:39 by mkoyamba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ typedef struct s_access
 	pthread_mutex_t	*speak;
 	pthread_mutex_t	*nb_meal_mute;
 	pthread_mutex_t	*death_check_mute;
+	pthread_mutex_t	*start_mute;
 	int				*stop;
 }			t_access;
 
