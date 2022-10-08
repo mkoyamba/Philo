@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkoyamba <mkoyamba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkoyamba <mkoyamba@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 13:23:10 by mkoyamba          #+#    #+#             */
-/*   Updated: 2022/10/06 16:11:39 by mkoyamba         ###   ########.fr       */
+/*   Updated: 2022/10/08 14:18:34 by mkoyamba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int		timestamp(t_access *access);
 void	ft_putnbr(int n);
 void	print_msg(t_access *access, int msg);
 void	died(t_access *access);
-void	all_free(t_data *data);
+void	all_free(t_data *data, pthread_mutex_t	*speak);
 void	time_tempo(int timeout, int time_stamp, t_access *access);
 int		first_timestamp(void);
 int		eat_end(t_access *access);

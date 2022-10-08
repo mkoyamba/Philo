@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkoyamba <mkoyamba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkoyamba <mkoyamba@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 18:30:58 by mkoyamba          #+#    #+#             */
-/*   Updated: 2022/10/06 16:51:35 by mkoyamba         ###   ########.fr       */
+/*   Updated: 2022/10/08 14:21:42 by mkoyamba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	timestamp_data(t_data *data)
 	return (result);
 }
 
-void	all_free(t_data *data)
+void	all_free(t_data *data, pthread_mutex_t	*speak)
 {
 	int	n;
 
@@ -40,6 +40,7 @@ void	all_free(t_data *data)
 		n++;
 	}
 	pthread_mutex_unlock(data->nb_meal_mute);
+	pthread_mutex_unlock(speak);
 	n = 0;
 	while (n < data->len)
 	{
@@ -74,5 +75,5 @@ void	all_free(t_data *data)
 void	error_out(char *str, t_data *data)
 {
 	write(2, str, ft_strlen(str));
-	all_free(data);
+	all_free(data, NULL);
 }

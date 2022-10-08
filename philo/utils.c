@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkoyamba <mkoyamba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mkoyamba <mkoyamba@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 10:26:59 by mkoyamba          #+#    #+#             */
-/*   Updated: 2022/10/06 15:52:52 by mkoyamba         ###   ########.fr       */
+/*   Updated: 2022/10/08 14:21:37 by mkoyamba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,14 @@ int	first_timestamp(void)
 void	print_msg(t_access *access, int msg)
 {
 	pthread_mutex_lock(access->speak);
+	pthread_mutex_lock(access->nb_meal_mute);
+	if (*(access->stop))
+	{
+		pthread_mutex_unlock(access->speak);
+		pthread_mutex_unlock(access->nb_meal_mute);
+		return ;
+	}
+	pthread_mutex_unlock(access->nb_meal_mute);
 	ft_putnbr(timestamp(access));
 	write(1, " ", 1);
 	ft_putnbr(access->num);
