@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkoyamba <mkoyamba@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mkoyamba <mkoyamba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 13:23:10 by mkoyamba          #+#    #+#             */
-/*   Updated: 2022/10/08 14:18:34 by mkoyamba         ###   ########.fr       */
+/*   Updated: 2022/10/24 14:43:42 by mkoyamba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,21 +83,38 @@ typedef struct s_data
 
 /*  		==================(    PROTOTYPES    )==================		  */
 
-void	error_out(char *str, t_data *data);
-void	init(t_data *data);
-void	philo(t_data *data, pthread_mutex_t	*speak,
-			pthread_mutex_t	*nb_meal_mute, pthread_mutex_t	*death_check_mute);
-size_t	ft_strlen(char *str);
-int		ft_atoi(char *str);
-int		timestamp(t_access *access);
-void	ft_putnbr(int n);
-void	print_msg(t_access *access, int msg);
-void	died(t_access *access);
-void	all_free(t_data *data, pthread_mutex_t	*speak);
-void	time_tempo(int timeout, int time_stamp, t_access *access);
-int		first_timestamp(void);
-int		eat_end(t_access *access);
-void	time_tempo_data(int timeout, int time_stamp, t_data *data);
-int		timestamp_data(t_data *data);
+void		error_out(char *str, t_data *data);
+void		init(t_data *data);
+void		philo(t_data *data, pthread_mutex_t	*speak,
+				pthread_mutex_t	*nb_meal_mute,
+				pthread_mutex_t	*death_check_mute);
+size_t		ft_strlen(char *str);
+int			ft_atoi(char *str);
+int			timestamp(t_access *access);
+void		ft_putnbr(int n);
+void		print_msg(t_access *access, int msg);
+void		died(t_access *access);
+void		all_free(t_data *data, pthread_mutex_t	*speak);
+void		time_tempo(int timeout, int time_stamp, t_access *access);
+int			first_timestamp(void);
+int			eat_end(t_access *access);
+void		time_tempo_data(int timeout, int time_stamp, t_data *data);
+int			timestamp_data(t_data *data);
+void		add_init(t_data *data, int n);
+void		destroy_mutexes(
+				pthread_mutex_t *speak, pthread_mutex_t *nb_meal_mute,
+				pthread_mutex_t *death_check_mute);
+t_access	*add_philo_loop(void *arg);
+int			add_check_state(t_data *data, int n);
+int			add_philo(t_data *data, pthread_mutex_t	*nb_meal_mute,
+				pthread_mutex_t	*death_check_mute,
+				pthread_mutex_t	*start_mute);
+void		add_philo_2(t_data *data, pthread_mutex_t *speak);
+int			check_state(t_data *data);
+void		add_all_free(t_data *data);
+void		add_main(t_data *data, pthread_mutex_t *speak,
+				pthread_mutex_t *nb_meal_mute,
+				pthread_mutex_t *death_check_mute);
+void		error_start(char *str, pthread_t **thread, pthread_mutex_t **mutex);
 
 #endif

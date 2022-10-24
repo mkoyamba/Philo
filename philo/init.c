@@ -6,7 +6,7 @@
 /*   By: mkoyamba <mkoyamba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 18:45:12 by mkoyamba          #+#    #+#             */
-/*   Updated: 2022/10/06 15:11:08 by mkoyamba         ###   ########.fr       */
+/*   Updated: 2022/10/24 14:40:48 by mkoyamba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,7 @@ static void	init_loop(t_data *data)
 	n = 0;
 	while (n < data->len)
 	{
-		data->access[n].stop = &(data->stop[n]);
-		data->stop[n] = 0;
-		data->access[n].last_eat = &(data->hunger_count[n]);
-		data->access[n].t_eat = data->t_eat;
-		data->access[n].t_sleep = data->t_sleep;
-		data->access[n].meal = &(data->number_meal[n]);
+		add_init(data, n);
 		data->access[n].data = data;
 		data->access[n].num = n + 1;
 		data->access[n].fork_0 = data->mutex[n];
@@ -62,6 +57,8 @@ static void	init_loop(t_data *data)
 		n++;
 	}
 	data->access[data->len - 1].fork_1 = data->mutex[0];
+	if (data->len == 1)
+		data->access[0].fork_1 = NULL;
 }
 
 void	init(t_data *data)

@@ -3,14 +3,14 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mkoyamba <mkoyamba@student.s19.be>         +#+  +:+       +#+         #
+#    By: mkoyamba <mkoyamba@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/01 17:08:30 by mkoyamba          #+#    #+#              #
-#    Updated: 2022/10/08 14:22:44 by mkoyamba         ###   ########.fr        #
+#    Updated: 2022/10/24 13:18:01 by mkoyamba         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -fsanitize=thread
 
 NAME = philo
 
@@ -22,6 +22,8 @@ SRC =	from_libft.c \
 		philo.c \
 		tools.c \
 		utils.c \
+		addons.c \
+		more_addons.c \
 
 BONUS =	
 

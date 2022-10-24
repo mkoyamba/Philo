@@ -6,13 +6,13 @@
 /*   By: mkoyamba <mkoyamba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 13:34:07 by mkoyamba          #+#    #+#             */
-/*   Updated: 2022/10/06 14:44:49 by mkoyamba         ###   ########.fr       */
+/*   Updated: 2022/10/24 14:34:53 by mkoyamba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static void	error_start(char *str, pthread_t **thread, pthread_mutex_t **mutex)
+void	error_start(char *str, pthread_t **thread, pthread_mutex_t **mutex)
 {
 	if (thread)
 		free(thread);
@@ -83,15 +83,6 @@ static void	alloc_init(t_data *data, int ac, char **av)
 	data->access = NULL;
 }
 
-static void	destroy_mutexes(
-				pthread_mutex_t *speak, pthread_mutex_t *nb_meal_mute,
-				pthread_mutex_t *death_check_mute)
-{
-	pthread_mutex_destroy(speak);
-	pthread_mutex_destroy(nb_meal_mute);
-	pthread_mutex_destroy(death_check_mute);
-}
-
 int	main(int argc, char **argv)
 {
 	t_data			data;
@@ -103,27 +94,7 @@ int	main(int argc, char **argv)
 	pthread_mutex_init(&nb_meal_mute, NULL);
 	pthread_mutex_init(&death_check_mute, NULL);
 	alloc_init(&data, argc, argv);
-	data.hunger_count = malloc(data.len * sizeof(int));
-	if (!data.hunger_count)
-	{
-		destroy_mutexes(&speak, &nb_meal_mute, &death_check_mute);
-		error_start(E_ALLOC, data.thread, data.mutex);
-	}
-	data.number_meal = malloc(data.len * sizeof(int));
-	if (!data.number_meal)
-	{
-		destroy_mutexes(&speak, &nb_meal_mute, &death_check_mute);
-		free(data.hunger_count);
-		error_start(E_ALLOC, data.thread, data.mutex);
-	}
-	data.access = malloc(data.len * sizeof(t_access));
-	if (!data.access)
-	{
-		destroy_mutexes(&speak, &nb_meal_mute, &death_check_mute);
-		free(data.hunger_count);
-		free(data.number_meal);
-		error_start(E_ALLOC, data.thread, data.mutex);
-	}
+	add_main(&data, &speak, &nb_meal_mute, &death_check_mute);
 	data.stop = malloc(data.len * sizeof(int));
 	if (!data.stop)
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkoyamba <mkoyamba@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mkoyamba <mkoyamba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 18:30:58 by mkoyamba          #+#    #+#             */
-/*   Updated: 2022/10/08 14:21:42 by mkoyamba         ###   ########.fr       */
+/*   Updated: 2022/10/24 14:24:25 by mkoyamba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,23 +53,7 @@ void	all_free(t_data *data, pthread_mutex_t	*speak)
 		free(data->number_meal);
 	if (data->stop)
 		free(data->stop);
-	n = 0;
-	while (n < data->len)
-	{
-		pthread_mutex_destroy(data->mutex[n]);
-		if (data->mutex[n])
-			free(data->mutex[n]);
-		if (data->thread[n])
-			free(data->thread[n]);
-		n++;
-	}
-	if (data->mutex)
-		free(data->mutex);
-	if (data->thread)
-		free(data->thread);
-	if (data->access)
-		free(data->access);
-	return ;
+	add_all_free(data);
 }
 
 void	error_out(char *str, t_data *data)
